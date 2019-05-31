@@ -4,7 +4,7 @@ import 'expose-loader?$!jquery';
 import 'expose-loader?jQuery!jquery';
 
 jQuery(document).ready(function($) {
-    $(".clickable-row").click(function() {
-        window.location = $(this).data("href");
+    $('.clickable-row').click(function() {
+        window.location = $(this).data('href');
     });
 });

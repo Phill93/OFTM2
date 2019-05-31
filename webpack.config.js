@@ -1,7 +1,7 @@
 var path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 
 
@@ -25,22 +25,22 @@ module.exports = {
             })
         ]
     },
-    devtool: "source-map",
+    devtool: 'source-map',
     entry: [
         './assets/js/app.js',
         './assets/scss/app.scss'
     ],
     output: {
-        path: path.resolve(__dirname, "dist"),
-        filename: "js/main.js",
-        publicPath: "/dist"
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'js/main.js',
+        publicPath: '/dist'
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
                 use: {
-                    loader: "babel-loader"
+                    loader: 'babel-loader'
                 }
             },
             {
@@ -50,13 +50,13 @@ module.exports = {
                         loader: MiniCssExtractPlugin.loader
                     },
                     {
-                        loader: "css-loader",
+                        loader: 'css-loader',
                         options: {
                             sourceMap: true,
                         }
                     },
                     {
-                        loader: "sass-loader",
+                        loader: 'sass-loader',
                         options: {
                             outputStyle: 'expanded',
                             sourceMap: true,
@@ -85,8 +85,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             // Options similar to the same options in webpackOptions.output
             // both options are optional
-            filename: "css/[name].css",
-            chunkFilename: "css/[id].css"
+            filename: 'css/[name].css',
+            chunkFilename: 'css/[id].css'
         })
     ],
 };
