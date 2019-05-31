@@ -3,12 +3,14 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.views import View
 from django_tables2 import RequestConfig
+from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from OFTM2.apps.fencers_management.models import Fencer
 from OFTM2.apps.fencers_management.tables import FencersTable
 
 
-class FencersListView(View):
+class FencersListView(PermissionRequiredMixin, View):
+    permission_required = 'Fencers.can_view'
     """show all fencers as a table"""
     def get(self, request):
         """HTTP-GET"""
@@ -17,7 +19,8 @@ class FencersListView(View):
         return render(request, 'fencers_list.html', {'table': table, 'title': "Liste der Fechter/innen"})
 
 
-class FencersDetailView(View):
+class FencersDetailView(PermissionRequiredMixin, View):
+    permission_required = 'Fencers.can_view'
     """show one fencer"""
     def get(self, request, fencer_id):
         """HTTP-GET"""
