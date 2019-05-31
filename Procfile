@@ -1,0 +1,1 @@
+web: gunicorn OFTM2.wsgi --log-file -
