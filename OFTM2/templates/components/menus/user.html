@@ -1,0 +1,14 @@
+{% for item in menu %}
+    {% if item.visible %}
+        <li class="mdl-menu__item" id="user-menu-{{ item.slug }}">
+            <a href="{{ item.url }}" class="mdl-navigation__link">
+                {% if item.icon %}
+                    <i class="material-icons">
+                        {{ item.icon }}
+                    </i>&nbsp;
+                {% endif %}
+                {{ item.title }}
+            </a>
+        </li>
+    {% endif %}
+{% endfor %}

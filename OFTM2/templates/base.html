@@ -1,0 +1,87 @@
+{% load static %}
+{% load menu %}
+{% generate_menu %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>OFTM2 - {{ title }}</title>
+    <link rel="stylesheet" href="{% static "css/main.css" %}">
+</head>
+<body>
+<div class="mdl-dash-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="mdl-dash-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
+        <div class="mdl-layout__header-row">
+            {% if back %}
+                <a href="{{request.META.HTTP_REFERER}}">
+                    <button class="mdl-button mdl-js-button mdl-button--mini-fab">
+                        <i class="material-icons">arrow_back</i>
+                    </button>
+                </a>
+            {% endif %}
+            <span class="mdl-layout-title">{{ title }}</span>
+            <div class="mdl-layout-spacer"></div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+                <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
+                    <i class="material-icons">search</i>
+                </label>
+                <div class="mdl-textfield__expandable-holder">
+                    <input class="mdl-textfield__input" type="text" id="search">
+                    <label class="mdl-textfield__label" for="search">Suche...</label>
+                </div>
+                <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="hdrbtn">
+                    <i class="material-icons">more_vert</i>
+                </button>
+                <ul class="mdl-menu mdl-js-menu mdl-js-ripple-effect mdl-menu--bottom-right" for="hdrbtn">
+                    {% if user.is_staff %}<li class="mdl-menu__item"><a href="{% url 'admin:index' %}">Admin</a></li>{% endif %}
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="mdl-dash-drawer mdl-layout__drawer mdl-color--blue-grey-900 mdl-color-text--blue-grey-50">
+        <header class="mdl-dash-drawer-header">
+
+            <div class="mdl-dash-avatar-dropdown">
+                {% if user.is_authenticated %}
+                <span>{{ user.username }}</span>
+                <div class="mdl-layout-spacer"></div>
+                <button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+                    <i class="material-icons" role="presentation">arrow_drop_down</i>
+                    <span class="visuallyhidden"><a href="">User</a></span>
+                </button>
+                <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="accbtn">
+                    {% with menu=menus.user %}
+                        {% include "components/menus/user.html" %}
+                    {% endwith %}
+                </ul>
+                {% else %}
+                    <div class="mdl-layout-spacer"></div>
+                    <a href="{% url 'login' %}">
+                    <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-color--light-blue">Login</button>
+                    </a>
+                    <div class="mdl-layout-spacer"></div>
+            {% endif %}
+            </div>
+
+        </header>
+        <nav class="mdl-dash-navigation mdl-navigation mdl-color--blue-grey-800">
+            {% with menu=menus.main %}
+                {% include "components/menus/main.html" %}
+            {% endwith %}
+        </nav>
+    </div>
+    <main class="mdl-layout__content mdl-color--grey-400">
+        <div class="mdl-grid mdl-dash-content">
+            {% block content %}
+                <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+                    No Content here :-(
+                </div>
+            {% endblock %}
+        </div>
+    </main>
+</div>
+<script src="{% static "js/main.js" %}"></script>
+</body>
+</html>

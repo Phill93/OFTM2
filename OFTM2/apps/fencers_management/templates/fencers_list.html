@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% load render_table from django_tables2 %}
+{% block content %}
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+        {% render_table table %}
+    </div>
+{% endblock %}

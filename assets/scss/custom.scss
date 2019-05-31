@@ -1,0 +1,40 @@
+.fullwidth {
+  width: 100%;
+}
+
+.asc {
+  @extend .mdl-data-table__header--sorted-ascending
+}
+
+.desc {
+  @extend .mdl-data-table__header--sorted-descending
+}
+
+.fencer-image {
+  height: 640px;
+  width: 480px;
+  background-color: #d3d3d3;
+  margin: auto;
+  text-align: center;
+}
+.fencer-image-placeholder {
+  font-size: 20vw;
+  padding: 20% 0;
+  color: #888888;
+}
+
+.util-center {
+  margin: auto;
+}
+
+.util-max-512px {
+  max-width: 512px;
+}
+
+.util-spacing-h--40px {
+  margin-top: 40px;
+  margin-bottom: 40px
+}
+.util-no-decoration {
+  text-decoration: none;
+}

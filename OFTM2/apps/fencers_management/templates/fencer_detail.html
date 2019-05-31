@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell--6-col mdl-cell mdl-grid">
+        <div class="fencer-image">
+            <i class="material-icons fencer-image-placeholder">
+                person_outline
+            </i>
+        </div>
+    </div>
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--6-col mdl-grid">
+        <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-shadow--2dp">
+            <div class="mdl-cell mdl-cell--6-col">Vorname:</div>
+            <div class="mdl-cell mdl-cell--4-col">{{ fencer.first_name }}</div>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-shadow--2dp">
+            <div class="mdl-cell mdl-cell--6-col">Nachname:</div>
+            <div class="mdl-cell mdl-cell--4-col">{{ fencer.last_name }}</div>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-shadow--2dp">
+            <div class="mdl-cell mdl-cell--6-col">Geschlecht:</div>
+            <div class="mdl-cell mdl-cell--4-col">{{ fencer.get_gender_display }}</div>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-shadow--2dp">
+            <div class="mdl-grid mdl-cell--12-col">
+                <div class="mdl-cell mdl-cell--6-col">Geburtsdatum:</div>
+                <div class="mdl-cell mdl-cell--4-col">{{ fencer.birthday }}</div>
+            </div>
+            <div class="mdl-grid mdl-cell--12-col">
+                <div class="mdl-cell mdl-cell--6-col">Altersklassen:</div>
+                <div class="mdl-cell mdl-cell--4-col">
+                    <ul>
+                        {% for ageclass in fencer.get_ageclasses %}
+                            <li>
+                                {{ ageclass.name }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-shadow--2dp">
+            <div class="mdl-cell mdl-cell--6-col">Fechtpass NR:</div>
+            <div class="mdl-cell mdl-cell--4-col">{{ fencer.fechtpass|default:"---" }}</div>
+        </div>
+    </div>
+
+{% endblock %}
