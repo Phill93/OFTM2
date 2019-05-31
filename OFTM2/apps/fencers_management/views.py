@@ -7,6 +7,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 
 from OFTM2.apps.fencers_management.models import Fencer
 from OFTM2.apps.fencers_management.tables import FencersTable
+from OFTM2.apps.fencers_management.forms import FencerForm
 
 
 class FencersListView(PermissionRequiredMixin, View):
@@ -26,3 +27,13 @@ class FencersDetailView(PermissionRequiredMixin, View):
         """HTTP-GET"""
         fencer = get_object_or_404(Fencer, pk=fencer_id)
         return render(request, 'fencer_detail.html', {'fencer': fencer, 'back': True, 'title': fencer})
+
+
+class FencersCreateView(PermissionRequiredMixin, View):
+    permission_required = 'Fencers.can_create'
+    """create a new fencer"""
+    def get(self, request):
+        """HTTP-GET"""
+        form = FencerForm()
+        print(vars(form.fields['birthday']))
+        return render(request, 'fencer_create.html', {'form': form, 'back': True, 'title': "Fecheter/in anlegen"})
