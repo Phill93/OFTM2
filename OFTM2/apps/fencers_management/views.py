@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views import View
 from django_tables2 import RequestConfig
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from OFTM2.apps.fencers_management.models import Fencer
 from OFTM2.apps.fencers_management.tables import FencersTable
@@ -36,3 +36,12 @@ class FencersCreateView(PermissionRequiredMixin, CreateView):
     form_class = FencerForm
     template_name = 'fencer_form.html'
     model = Fencer
+
+
+class FencersUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'Fencers.can_create'
+    """update a fencer"""
+    form_class = FencerForm
+    template_name = 'fencer_form.html'
+    model = Fencer
+
