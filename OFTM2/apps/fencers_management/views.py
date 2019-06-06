@@ -34,5 +34,5 @@ class FencersCreateView(PermissionRequiredMixin, CreateView):
     permission_required = 'Fencers.can_create'
     """create a new fencer"""
     form_class = FencerForm
-    template_name = 'fencer_create.html'
+    template_name = 'fencer_form.html'
     model = Fencer

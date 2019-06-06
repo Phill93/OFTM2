@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-        <form method="post" class="mdl-cell mdl-cell--12-col mdl-grid" novalidate action="{% url 'fencers_management:fencer_create' %}">
+        <form method="post" class="mdl-cell mdl-cell--12-col mdl-grid" novalidate>
             {% csrf_token %}
 
             {{ form.non_field_errors }}
