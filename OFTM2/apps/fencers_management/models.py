@@ -2,6 +2,7 @@
 from django.db import models
 from django.urls import reverse
 from OFTM2.apps.fencers_management.validators import validate_fechtpass
+from OFTM2.apps.fencers_management.helpers import calculate_age
 from partial_date import PartialDateField
 
 # Create your models here.
@@ -56,6 +57,10 @@ class Fencer(models.Model):
             if ageclass.startDate.date < self.birthday < ageclass.endDate.date:
                 out.append(ageclass)
         return out
+
+    def get_age(self):
+        """returns the age of a fencer"""
+        return calculate_age(self.birthday)
 
     class Meta:
         verbose_name = "Fechter/in"
