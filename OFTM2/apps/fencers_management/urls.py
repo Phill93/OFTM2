@@ -8,5 +8,6 @@ urlpatterns = [
     path('', views.FencersListView.as_view(), name='fencers_list'),
     path('<int:fencer_id>', views.FencersDetailView.as_view(), name='fencer_detail'),
     path('add', views.FencersCreateView.as_view(), name='fencer_create'),
-    path('<int:pk>/update', views.FencersUpdateView.as_view(), name='fencer_update')
+    path('<int:pk>/update', views.FencersUpdateView.as_view(), name='fencer_update'),
+    path('<int:pk>/delete', views.FencersDeleteView.as_view(), name='fencer_delete'),
 ]

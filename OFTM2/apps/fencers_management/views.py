@@ -4,7 +4,8 @@ from django.shortcuts import render
 from django.views import View
 from django_tables2 import RequestConfig
 from django.contrib.auth.mixins import PermissionRequiredMixin
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 
 from OFTM2.apps.fencers_management.models import Fencer
 from OFTM2.apps.fencers_management.tables import FencersTable
@@ -45,3 +46,10 @@ class FencersUpdateView(PermissionRequiredMixin, UpdateView):
     template_name = 'fencer_form.html'
     model = Fencer
 
+
+class FencersDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = 'Fencers.can_delete'
+    """delete a fencer"""
+    model = Fencer
+    template_name = "fencer_delete.html"
+    success_url = reverse_lazy('fencers_management:fencers_list')

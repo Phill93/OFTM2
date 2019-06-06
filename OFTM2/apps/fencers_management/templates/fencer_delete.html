@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="mdl-cell mdl-cell--12-col mdl-grid mdl-shadow--2dp mdl-color--white">
+        <div class="mdl-layout-spacer"></div>
+        <div class="mdl-cell--4-col">
+            <form method="post">
+                {% csrf_token %}
+                <p style="text-align: center">
+                    {{ fencer.first_name }} {{ fencer.last_name }} wirklich löschen?<br>
+                    <a href="{{ fencer.get_absolute_url }}">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="button">
+                            Abbruch
+                        </button>
+                    </a>
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--red" type="submit">
+                        Bestätigen
+                    </button>
+                </p>
+            </form>
+        </div>
+        <div class="mdl-layout-spacer"></div>
+    </div>
+{% endblock %}

@@ -1,6 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if perms.Fencers.can_modify or perms.Fencers.can_delete %}
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell--12-col mdl-cell mdl-grid">
+        <div class="mdl-layout-spacer"></div>
+        {% if perms.Fencers.can_delete %}
+        <div class="mdl-cell--1-col mdl-cell">
+            <a href="{% url 'fencers_management:fencer_delete' fencer.pk %}">
+                <button class="mdl-button mdl-js-button mdl-button--mini-fab mdl-button--colored mdl-color--red mdl-color-text--white">
+                    <i class="material-icons">delete</i>
+                </button>
+            </a>
+        </div>
+        {% endif %}
+        {% if perms.Fencers.can_modify %}
+        <div class="mdl-cell--1-col mdl-cell">
+            <a href="{% url 'fencers_management:fencer_update' fencer.pk %}">
+                <button class="mdl-button mdl-js-button mdl-button--mini-fab mdl-button--colored mdl-shadow--2dp">
+                    <i class="material-icons">edit</i>
+                </button>
+            </a>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
     <div class="mdl-color--white mdl-shadow--2dp mdl-cell--6-col mdl-cell mdl-grid">
         <div class="fencer-image">
             <i class="material-icons fencer-image-placeholder">
