@@ -27,7 +27,11 @@
                 <label for="{{ form.gender.id_for_label }}" class="mdl-textfield__label">Geschlect</label>
                 <ul for="{{ form.gender.id_for_label }}" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
                     {% for choice in form.fields.gender.choices %}
+                        {% if fencer and fencer.gender == choice.0 %}
+                        <li class="mdl-menu__item" data-val="{{ choice.0 }}" data-selected="true">{{ choice.1 }}</li>
+                        {% else %}
                         <li class="mdl-menu__item" data-val="{{ choice.0 }}">{{ choice.1 }}</li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
                 {{ form.gender.errors }}
