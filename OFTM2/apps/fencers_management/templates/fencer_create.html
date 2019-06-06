@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-        <form method="post" class="mdl-cell mdl-cell--12-col mdl-grid">
+        <form method="post" class="mdl-cell mdl-cell--12-col mdl-grid" novalidate action="{% url 'fencers_management:fencer_create' %}">
             {% csrf_token %}
 
             {{ form.non_field_errors }}
@@ -10,17 +10,19 @@
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                 <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.first_name.id_for_label }}">Vorname</label>
                 {{ form.first_name }}
+                {{ form.first_name.errors }}
             </div>
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                 <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.last_name.id_for_label }}">Nachname</label>
                 {{ form.last_name }}
+                {{ form.last_name.errors }}
             </div>
 
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select mdl-cell mdl-cell--12-col">
                 <input type="text" value="" class="mdl-textfield__input" id="{{ form.gender.id_for_label }}" readonly>
-                <input type="hidden" value="" name="{{ form.gender.id_for_label }}">
+                <input type="hidden" value="" name="gender">
                 <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
                 <label for="{{ form.gender.id_for_label }}" class="mdl-textfield__label">Geschlect</label>
                 <ul for="{{ form.gender.id_for_label }}" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
@@ -28,16 +30,19 @@
                         <li class="mdl-menu__item" data-val="{{ choice.0 }}">{{ choice.1 }}</li>
                     {% endfor %}
                 </ul>
+                {{ form.gender.errors }}
             </div>
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                 <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.fechtpass.id_for_label }}">Fechtpass NR.</label>
                 {{ form.fechtpass }}
+                {{ form.fechtpass.errors }}
             </div>
 
             <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
                 <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.birthday.id_for_label }}">Geburtsdatum</label>
                 {{ form.birthday }}
+                {{ form.birthday.errors }}
             </div>
             <div class="mdl-cell--12-col mdl-cell mdl-grid mdl-grid--no-spacing">
                 <div class="mdl-layout-spacer"></div>
