@@ -22,6 +22,6 @@ class AgeClassAdmin(admin.ModelAdmin):
     """
     list_display = (
         'name',
-        'startDate',
-        'endDate'
+        'startAge',
+        'endAge'
     )

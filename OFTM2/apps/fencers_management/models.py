@@ -73,11 +73,11 @@ class AgeClass(models.Model):
         verbose_name="Name",
         max_length=60
     )
-    startDate = PartialDateField(
-        verbose_name="Anfangs Datum",
+    startAge = models.IntegerField(
+        verbose_name="Anfangs Alter",
     )
-    endDate = PartialDateField(
-        verbose_name="End Datum"
+    endAge = models.IntegerField(
+        verbose_name="End Alter"
     )
 
     def __str__(self):
