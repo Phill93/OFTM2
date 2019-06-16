@@ -1,5 +1,10 @@
+"""AppConfig File for tournament management"""
 from django.apps import AppConfig
 
 
 class TournamentManagementConfig(AppConfig):
-    name = 'tournament_management'
+    """Informations for django"""
+    name = 'OFTM2.apps.tournament_management'
+    verbose_name = 'Tunier Verwaltung'
+
+
