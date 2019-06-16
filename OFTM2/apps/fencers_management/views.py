@@ -10,7 +10,7 @@ from django.urls import reverse_lazy
 from OFTM2.apps.fencers_management.models import Fencer
 from OFTM2.apps.fencers_management.tables import FencersTable
 from OFTM2.apps.fencers_management.forms import FencerForm
-
+from OFTM2.apps.fencers_management.helpers import calculate_age#
 
 class FencersListView(PermissionRequiredMixin, View):
     permission_required = 'Fencers.can_view'
@@ -28,7 +28,7 @@ class FencersDetailView(PermissionRequiredMixin, View):
     def get(self, request, fencer_id):
         """HTTP-GET"""
         fencer = get_object_or_404(Fencer, pk=fencer_id)
-        return render(request, 'fencer_detail.html', {'fencer': fencer, 'back': True, 'title': fencer})
+        return render(request, 'fencer_detail.html', {'fencer': fencer, 'back': True, 'title': fencer, 'age': calculate_age(fencer.birthday)})
 
 
 class FencersCreateView(PermissionRequiredMixin, CreateView):

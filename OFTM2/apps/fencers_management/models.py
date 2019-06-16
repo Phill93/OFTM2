@@ -53,8 +53,9 @@ class Fencer(models.Model):
     def get_ageclasses(self):
         """returns the ageclasses for the fencer"""
         out = []
+        age = calculate_age(self.birthday)
         for ageclass in AgeClass.objects.all():
-            if ageclass.startDate.date < self.birthday < ageclass.endDate.date:
+            if ageclass.startAge <= age <= ageclass.endAge:
                 out.append(ageclass)
         return out
 
