@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'menu',
     'django_tables2',
     'OFTM2.apps.fencers_management',
+    'OFTM2.apps.tournament_management'
 ]
 
 
