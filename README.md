@@ -5,30 +5,30 @@
 ## ToDo
 
 - [x] **Fencers**
-    - [x] Model
-    - [x] Create
-    - [x] Update
-    - [x] View
-    - [x] List
-    - [x] Delete
+  - [x] Model
+  - [x] Create
+  - [x] Update
+  - [x] View
+  - [x] List
+  - [x] Delete
 - [x] **Ageclasses**
-    - [x] Admin View
-    - [x] Assign (automatically based on age)
+  - [x] Admin View
+  - [x] Assign (automatically based on age)
 - [ ] **Tournaments**
-    - [x] Model
-    - [x] Create
-    - [x] Update
-    - [x] View
-    - [x] List
-    - [x] Delete
-    - [ ] **Participants**
-        - [ ] Assing
-        - [ ] Unassing
-    - [ ] **Combats**
-        - [ ] Model
-        - [ ] Create
-        - [ ] Update
-        - [ ] View
-        - [ ] List
-        - [ ] Delete
-     - [ ] Calculate ranking
+  - [x] Model
+  - [x] Create
+  - [x] Update
+  - [x] View
+  - [x] List
+  - [x] Delete
+  - [ ] **Participants**
+    - [ ] Assing
+    - [ ] Unassing
+  - [ ] **Combats**
+    - [ ] Model
+    - [ ] Create
+    - [ ] Update
+    - [ ] View
+    - [ ] List
+    - [ ] Delete
+   - [ ] Calculate ranking
