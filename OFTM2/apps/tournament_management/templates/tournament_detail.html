@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if perms.Fencers.can_modify or perms.Fencers.can_delete %}
+        <div class="mdl-color--white mdl-shadow--2dp mdl-cell--12-col mdl-cell mdl-grid">
+            <div class="mdl-layout-spacer"></div>
+            {% if perms.Tournament.can_delete %}
+                <div class="mdl-cell--1-col mdl-cell">
+                    <a href="{% url 'tournament_management:tournament_delete' tournament.pk %}">
+                        <button class="mdl-button mdl-js-button mdl-button--mini-fab mdl-button--colored mdl-color--red mdl-color-text--white">
+                            <i class="material-icons">delete</i>
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
+            {% if perms.Tournament.can_modify %}
+                <div class="mdl-cell--1-col mdl-cell">
+                    <a href="{% url 'tournament_management:tournament_update' tournament.pk %}">
+                        <button class="mdl-button mdl-js-button mdl-button--mini-fab mdl-button--colored mdl-shadow--2dp">
+                            <i class="material-icons">edit</i>
+                        </button>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col mdl-grid mdl-shadow--2dp">
+            <div class="mdl-cell mdl-cell--6-col">Name:</div>
+            <div class="mdl-cell mdl-cell--4-col">{{ tournament.name }}</div>
+        </div>
+        <div class="mdl-cell mdl-cell--4-col mdl-grid mdl-shadow--2dp">
+            <div class="mdl-cell mdl-cell--6-col">Austragungsdatum:</div>
+            <div class="mdl-cell mdl-cell--4-col">{{ tournament.date }}</div>
+        </div>
+        <div class="mdl-cell mdl-cell--4-col mdl-grid mdl-shadow--2dp">
+            <div class="mdl-cell mdl-cell--6-col">Altersklasse:</div>
+            <div class="mdl-cell mdl-cell--4-col">{{ tournament.ageclass }}</div>
+        </div>
+    </div>
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+        <h5>Teilnehmer</h5>
+        {% load django_tables2 %}
+        {% render_table participants_table %}
+    </div>
+{% endblock %}

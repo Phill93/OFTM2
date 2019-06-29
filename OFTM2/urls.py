@@ -11,6 +11,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='portal.html'), name="portal"),
     path('admin/', admin.site.urls),
     path('fencers/', include('OFTM2.apps.fencers_management.urls')),
+                  path('tournaments/', include('OFTM2.apps.tournament_management.urls')),
     path('accounts/', include('django.contrib.auth.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

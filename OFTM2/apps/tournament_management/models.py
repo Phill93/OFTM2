@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+
 from OFTM2.apps.fencers_management.models import Fencer, AgeClass
 
 
@@ -30,6 +32,10 @@ class Tournament(models.Model):
     def participants_count(self):
         """Returns the count of participants"""
         return self.participants.count()
+
+    def get_absolute_url(self):
+        """returns the absolute url to the object"""
+        return reverse('tournament_management:tournament_detail', args=[str(self.id)])
 
     participants_count.short_description = "Teilnehmeranzahl"
 

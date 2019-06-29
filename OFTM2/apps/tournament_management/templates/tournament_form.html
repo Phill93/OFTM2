@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+        <form method="post" class="mdl-cell mdl-cell--12-col mdl-grid" novalidate>
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.name.id_for_label }}">Name</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.date.id_for_label }}">Austragungsdatum</label>
+                {{ form.date }}
+                {{ form.date.errors }}
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select mdl-cell mdl-cell--12-col">
+                <input type="text" value="" class="mdl-textfield__input" id="{{ form.ageclass.id_for_label }}" readonly>
+                <input type="hidden" value="" name="ageclass">
+                <i class="mdl-icon-toggle__label material-icons">keyboard_arrow_down</i>
+                <label for="{{ form.ageclass.id_for_label }}" class="mdl-textfield__label">Altersklasse</label>
+                <ul for="{{ form.ageclass.id_for_label }}" class="mdl-menu mdl-menu--bottom-left mdl-js-menu">
+                    {% for choice in form.fields.ageclass.choices %}
+                        {% if tournament and tournament.ageclass.pk == choice.0 %}
+                            <li class="mdl-menu__item" data-val="{{ choice.0 }}" data-selected="true">{{ choice.1 }}</li>
+                        {% else %}
+                            <li class="mdl-menu__item" data-val="{{ choice.0 }}">{{ choice.1 }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+                {{ form.gender.errors }}
+            </div>
+
+            <div class="mdl-cell--12-col mdl-cell mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-layout-spacer"></div>
+                <div class="mdl-cell mdl-cell--2-col">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--red" type="reset">
+                        Löschen
+                    </button>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
+                        Absenden
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

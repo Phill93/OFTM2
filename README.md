@@ -16,11 +16,14 @@
     - [x] Assign (automatically based on age)
 - [ ] **Tournaments**
     - [x] Model
-    - [ ] Create
-    - [ ] Update
-    - [ ] View
-    - [ ] List
-    - [ ] Delete
+    - [x] Create
+    - [x] Update
+    - [x] View
+    - [x] List
+    - [x] Delete
+    - [ ] **Participants**
+        - [ ] Assing
+        - [ ] Unassing
     - [ ] **Combats**
         - [ ] Model
         - [ ] Create
@@ -28,4 +31,4 @@
         - [ ] View
         - [ ] List
         - [ ] Delete
-     - [ ] ranking
+     - [ ] Calculate ranking
