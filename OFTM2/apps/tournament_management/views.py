@@ -5,6 +5,8 @@ from django.views import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django_tables2 import RequestConfig
 
+from OFTM2.apps.fencers_management.helpers import calculate_birthday
+from OFTM2.apps.fencers_management.models import Fencer
 from OFTM2.apps.fencers_management.tables import FencersTable
 from OFTM2.apps.tournament_management.forms import TournamentForm
 from OFTM2.apps.tournament_management.models import Tournament
@@ -47,6 +49,13 @@ class TournamentUpdateView(PermissionRequiredMixin, UpdateView):
     form_class = TournamentForm
     template_name = 'tournament_form.html'
     model = Tournament
+
+    def dispatch(self, request, *args, **kwargs):
+        t = Tournament.objects.get(pk=kwargs['pk'])
+        ac = t.ageclass
+        self.form_class.base_fields['participants'].queryset = Fencer.objects.filter(
+            birthday__range=[calculate_birthday(t.date, ac.endAge), calculate_birthday(t.date, ac.startAge)])
+        return super(TournamentUpdateView, self).dispatch(request, *args, **kwargs)
 
 
 class TournamentDeleteView(PermissionRequiredMixin, DeleteView):
