@@ -21,9 +21,9 @@
   - [x] View
   - [x] List
   - [x] Delete
-  - [ ] **Participants**
-    - [ ] Assign
-    - [ ] Unassign
+  - [x] **Participants**
+    - [x] Assign
+    - [x] Unassign
   - [ ] **Combats**
     - [ ] Model
     - [ ] Create
