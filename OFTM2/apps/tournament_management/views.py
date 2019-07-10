@@ -10,7 +10,7 @@ from OFTM2.apps.fencers_management.models import Fencer
 from OFTM2.apps.fencers_management.tables import FencersTable
 from OFTM2.apps.tournament_management.forms import TournamentForm
 from OFTM2.apps.tournament_management.models import Tournament
-from OFTM2.apps.tournament_management.tables import TournamentTable
+from OFTM2.apps.tournament_management.tables import TournamentTable, CombatTable
 
 
 class TournamentsListView(PermissionRequiredMixin, View):
@@ -32,7 +32,12 @@ class TournamentsDetailView(PermissionRequiredMixin, View):
         """HTTP-GET"""
         tournament = get_object_or_404(Tournament, pk=tournament_id)
         participants_table = FencersTable(tournament.participants.all())
-        return render(request, 'tournament_detail.html', {'tournament': tournament, 'participants_table': participants_table, 'back': True, 'title': tournament})
+        rounds = []
+        for r in tournament.round_set.all():
+            r.combat_table = CombatTable(r.combat_set.all())
+            rounds.append(r)
+        return render(request, 'tournament_detail.html',
+                      {'tournament': tournament, 'participants_table': participants_table, 'back': True, 'title': tournament, 'rounds': rounds})
 
 
 class TournamentCreateView(PermissionRequiredMixin, CreateView):

@@ -43,4 +43,20 @@
         {% load django_tables2 %}
         {% render_table participants_table %}
     </div>
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+        <h5>Kämpfe</h5>
+        {% if rounds %}
+            <div class="mdl-cell mdl-cell--12-col">
+                {% load django_tables2 %}
+                {% for round in rounds %}
+                    <h6>Runde {{ round.round_number }}</h6>
+                    {% render_table round.combat_table %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="mdl-cell mdl-cell--12-col">
+                <h6>Das Tunier hat noch nicht begonnen!</h6>
+            <div></div>
+        {% endif %}
+    </div>
 {% endblock %}
