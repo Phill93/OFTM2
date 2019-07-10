@@ -97,7 +97,7 @@ class Combat(models.Model):
 
     def __str__(self):
         """Returns a assembeld name"""
-        return "Kampf: " + self.fighter1.__str__() + " vs " + self.fighter2.__str__() + " (Tunier " + self.tournament.__str__() + ")"
+        return "Kampf: " + self.fighter1.__str__() + " vs " + self.fighter2.__str__() + " (" + self.related_round.__str__() + ")"
 
     def get_winner(self):
         """Returns the winner"""
