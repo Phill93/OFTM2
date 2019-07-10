@@ -44,12 +44,33 @@ class Tournament(models.Model):
         verbose_name_plural = "Turniere"
 
 
-class Combat(models.Model):
-    """Represents a combat"""
+class Round(models.Model):
+    """Represents a round"""
+    round_number = models.IntegerField(
+        verbose_name="Runde"
+    )
+
     tournament = models.ForeignKey(
         Tournament,
         on_delete=models.CASCADE,
         verbose_name="Tunier"
+    )
+
+    def __str__(self):
+        """Returns a assembeld name"""
+        return "Runde " + self.round_number.__str__() + " vom Tunier " + self.tournament.__str__()
+
+    class Meta:
+        verbose_name = "Runde"
+        verbose_name_plural = "Runden"
+
+
+class Combat(models.Model):
+    """Represents a combat"""
+    related_round = models.ForeignKey(
+        Round,
+        on_delete=models.CASCADE,
+        verbose_name="Runde"
     )
 
     fighter1 = models.ForeignKey(
