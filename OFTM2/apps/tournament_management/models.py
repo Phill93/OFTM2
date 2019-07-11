@@ -108,6 +108,10 @@ class Combat(models.Model):
         else:
             return self.fighter2
 
+    def get_update_url(self):
+        """returns the update url to the object"""
+        return reverse('tournament_management:combat_update', args=[str(self.id)])
+
     class Meta:
         verbose_name = "Kampf"
         verbose_name_plural = "Kämpfe"

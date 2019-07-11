@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
+        <form method="post" class="mdl-cell mdl-cell--12-col mdl-grid" novalidate>
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.fighter1.id_for_label }}">Kämpfer 1</label>
+                {{ form.fighter1 }}
+                {{ form.fighter1.errors }}
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.fighter1_points.id_for_label }}">Punkte Kämpfer 1</label>
+                {{ form.fighter1_points }}
+                {{ form.fighter1_points.errors }}
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.fighter2.id_for_label }}">Kämpfer 1</label>
+                {{ form.fighter2 }}
+                {{ form.fighter2.errors }}
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-cell mdl-cell--12-col">
+                <label class="mdl-textfield__label mdl-color-text--grey" for="{{ form.fighter2_points.id_for_label }}">Punkte Kämpfer 1</label>
+                {{ form.fighter2_points }}
+                {{ form.fighter2_points.errors }}
+            </div>
+
+
+            <div class="mdl-cell--12-col mdl-cell mdl-grid mdl-grid--no-spacing">
+                <div class="mdl-layout-spacer"></div>
+                <div class="mdl-cell mdl-cell--2-col">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-color--red" type="reset">
+                        Löschen
+                    </button>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col">
+                    <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" type="submit">
+                        Absenden
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

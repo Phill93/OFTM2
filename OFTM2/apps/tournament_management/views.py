@@ -8,8 +8,8 @@ from django_tables2 import RequestConfig
 from OFTM2.apps.fencers_management.helpers import calculate_birthday
 from OFTM2.apps.fencers_management.models import Fencer
 from OFTM2.apps.fencers_management.tables import FencersTable
-from OFTM2.apps.tournament_management.forms import TournamentForm
-from OFTM2.apps.tournament_management.models import Tournament
+from OFTM2.apps.tournament_management.forms import TournamentForm, CombatForm
+from OFTM2.apps.tournament_management.models import Tournament, Combat
 from OFTM2.apps.tournament_management.tables import TournamentTable, CombatTable
 
 
@@ -70,3 +70,14 @@ class TournamentDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = 'tournament_delete.html'
     model = Tournament
     success_url = reverse_lazy('tournament_management:tournaments_list')
+
+
+class CombatUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = 'Combat.can_modify'
+    """update a combat"""
+    form_class = CombatForm
+    template_name = 'combat_form.html'
+    model = Combat
+
+    def get_success_url(self):
+        return reverse_lazy('tournament_management:tournament_detail', kwargs={'tournament_id': self.object.related_round.tournament.id})
