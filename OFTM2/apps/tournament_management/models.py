@@ -39,7 +39,16 @@ class Tournament(models.Model):
         return reverse('tournament_management:tournament_detail', args=[str(self.id)])
 
     def new_round(self):
-
+        """generates a new round with combats"""
+        rounds = self.round_set.order_by('round_number').all()
+        round_now = rounds.last()
+        if round_now:
+            r = round_now.round_number + 1
+        else:
+            r = 1
+        round_new = Round(round_number=r, tournament=self, locked=True)
+        round_new.save()
+        return round_new
 
     participants_count.short_description = "Teilnehmeranzahl"
 
@@ -83,6 +92,28 @@ class Round(models.Model):
             return None
         else:
             return self.tournament.round_set.get(round_number__exact=self.round_number-1)
+
+    def create_combats(self):
+        if self.started():
+            result = []
+            if self.round_number == 1:
+                p = list(self.tournament.participants.order_by('?'))
+            else:
+                p = list(self.tournament.participants.all())  # TODO: Change
+
+            while p:
+                c = Combat(related_round_id=self.pk, fighter1=p.pop(0), fighter2=p.pop(0), fighter1_points=0, fighter2_points=0)
+                c.save()
+                result.append(c)
+            return result
+        else:
+            raise Exception('round has already started')
+
+    def started(self):
+        if self.combat_set.count() == 0:
+            return True
+        else:
+            return False
 
     class Meta:
         verbose_name = "Runde"
