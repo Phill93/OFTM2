@@ -186,3 +186,37 @@ class Combat(models.Model):
     class Meta:
         verbose_name = "Kampf"
         verbose_name_plural = "Kämpfe"
+
+
+class Result(models.Model):
+    related_roun = models.ForeignKey(
+        Round,
+        on_delete=models.CASCADE,
+        verbose_name="Runde"
+    )
+    combat = models.ForeignKey(
+        Combat,
+        on_delete=models.PROTECT,
+        verbose_name="Kampf"
+    )
+    winner = models.ForeignKey(
+        Fencer,
+        on_delete=models.PROTECT,
+        verbose_name="Sieger"
+    )
+    winner_given = models.IntegerField(
+        verbose_name="Sieger gegeben"
+    )
+    winner_received = models.IntegerField(
+        verbose_name="Sieger erhalten"
+    )
+    looser_given = models.IntegerField(
+        verbose_name="Verlierer gegben"
+    )
+    looser_received = models.IntegerField(
+        verbose_name="Verlierer erhalten"
+    )
+
+    class Meta:
+        verbose_name = "Ergebniss"
+        verbose_name_plural = "Ergebnisse"
