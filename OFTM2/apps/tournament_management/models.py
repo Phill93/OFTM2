@@ -1,6 +1,6 @@
+from django.core.exceptions import FieldError
 from django.db import models
 from django.urls import reverse
-from django.core.exceptions import FieldError
 
 from OFTM2.apps.fencers_management.models import Fencer, AgeClass
 
