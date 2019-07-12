@@ -70,10 +70,13 @@ class Round(models.Model):
         return "Runde " + self.round_number.__str__() + " vom Tunier " + self.tournament.__str__()
 
     def save(self, *args, **kwargs):
-        original = Round.objects.get(pk=self.pk)
-        if original.locked:
-            raise FieldError('"{}" is locked.'.format(self.__str__()))
-        super(Round, self).save(*args, **kwargs)
+        try:
+            original = Round.objects.get(pk=self.pk)
+            if original.locked:
+                raise FieldError('"{}" is locked.'.format(self.__str__()))
+            super(Round, self).save(*args, **kwargs)
+        except self.DoesNotExist:
+            super(Round, self).save(*args, **kwargs)
 
     def get_round_before(self):
         if self.round_number <= 1:
@@ -139,10 +142,13 @@ class Combat(models.Model):
         return reverse('tournament_management:combat_update', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
-        original = Round.objects.get(pk=self.pk)
-        if original.locked:
-            raise FieldError('"{}" is locked.'.format(self.__str__()))
-        super(Combat, self).save(*args, **kwargs)
+        try:
+            original = Combat.objects.get(pk=self.pk)
+            if original.locked:
+                raise FieldError('"{}" is locked.'.format(self.__str__()))
+            super(Combat, self).save(*args, **kwargs)
+        except self.DoesNotExist:
+            super(Combat, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Kampf"
