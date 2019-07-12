@@ -72,6 +72,12 @@ class Round(models.Model):
             raise FieldError('"{}" is locked.'.format(self.__str__()))
         super(Round, self).save(*args, **kwargs)
 
+    def get_round_before(self):
+        if self.round_number <= 1:
+            return None
+        else:
+            return self.tournament.round_set.get(round_number__exact=self.round_number-1)
+
     class Meta:
         verbose_name = "Runde"
         verbose_name_plural = "Runden"
