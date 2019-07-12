@@ -102,7 +102,7 @@ class Round(models.Model):
                 p = list(self.tournament.participants.all())  # TODO: Change
 
             while p:
-                c = Combat(related_round_id=self.pk, fighter1=p.pop(0), fighter2=p.pop(0), fighter1_points=0, fighter2_points=0)
+                c = Combat(related_round_id=self.pk, fighter1=p.pop(0), fighter2=p.pop(0))
                 c.save()
                 result.append(c)
             return result
@@ -143,11 +143,13 @@ class Combat(models.Model):
     )
 
     fighter1_points = models.IntegerField(
-        verbose_name="Punkte Fechter 1"
+        verbose_name="Punkte Fechter 1",
+        blank=True
     )
 
     fighter2_points = models.IntegerField(
-        verbose_name="Punkte Fechter 2"
+        verbose_name="Punkte Fechter 2",
+        blank=True
     )
 
     locked = models.BooleanField(
