@@ -38,6 +38,9 @@ class Tournament(models.Model):
         """returns the absolute url to the object"""
         return reverse('tournament_management:tournament_detail', args=[str(self.id)])
 
+    def new_round(self):
+
+
     participants_count.short_description = "Teilnehmeranzahl"
 
     class Meta:
@@ -67,8 +70,8 @@ class Round(models.Model):
         return "Runde " + self.round_number.__str__() + " vom Tunier " + self.tournament.__str__()
 
     def save(self, *args, **kwargs):
-        orignial = Round.objects.get(pk=self.pk)
-        if orignial.locked:
+        original = Round.objects.get(pk=self.pk)
+        if original.locked:
             raise FieldError('"{}" is locked.'.format(self.__str__()))
         super(Round, self).save(*args, **kwargs)
 
@@ -136,8 +139,8 @@ class Combat(models.Model):
         return reverse('tournament_management:combat_update', args=[str(self.id)])
 
     def save(self, *args, **kwargs):
-        orignial = Round.objects.get(pk=self.pk)
-        if orignial.locked:
+        original = Round.objects.get(pk=self.pk)
+        if original.locked:
             raise FieldError('"{}" is locked.'.format(self.__str__()))
         super(Combat, self).save(*args, **kwargs)
 
