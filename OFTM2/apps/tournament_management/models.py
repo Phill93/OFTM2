@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.core.exceptions import FieldError
 
 from OFTM2.apps.fencers_management.models import Fencer, AgeClass
 
@@ -56,9 +57,20 @@ class Round(models.Model):
         verbose_name="Tunier"
     )
 
+    locked = models.BooleanField(
+        verbose_name="Gesperrt",
+        default=False
+    )
+
     def __str__(self):
         """Returns a assembeld name"""
         return "Runde " + self.round_number.__str__() + " vom Tunier " + self.tournament.__str__()
+
+    def save(self, *args, **kwargs):
+        orignial = Round.objects.get(pk=self.pk)
+        if orignial.locked:
+            raise FieldError('"{}" is locked.'.format(self.__str__()))
+        super(Round, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Runde"
@@ -95,6 +107,11 @@ class Combat(models.Model):
         verbose_name="Punkte Fechter 2"
     )
 
+    locked = models.BooleanField(
+        verbose_name="Gesperrt",
+        default=False
+    )
+
     def __str__(self):
         """Returns a assembeld name"""
         return "Kampf: " + self.fighter1.__str__() + " vs " + self.fighter2.__str__() + " (" + self.related_round.__str__() + ")"
@@ -111,6 +128,12 @@ class Combat(models.Model):
     def get_update_url(self):
         """returns the update url to the object"""
         return reverse('tournament_management:combat_update', args=[str(self.id)])
+
+    def save(self, *args, **kwargs):
+        orignial = Round.objects.get(pk=self.pk)
+        if orignial.locked:
+            raise FieldError('"{}" is locked.'.format(self.__str__()))
+        super(Combat, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Kampf"
