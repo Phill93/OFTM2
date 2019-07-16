@@ -115,6 +115,20 @@ class Round(models.Model):
         else:
             return False
 
+    def finished(self):
+        finished = True
+        for c in self.combat_set.all():
+            if not c.locked and c.result_set.count() == 0:
+                finished = False
+        return finished
+
+    def complete(self):
+        complete = True
+        for c in self.combat_set.all():
+            if not c.fighter2_points and not c.fighter1_points:
+                complete = False
+        return complete
+
     class Meta:
         verbose_name = "Runde"
         verbose_name_plural = "Runden"
