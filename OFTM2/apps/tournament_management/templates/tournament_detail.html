@@ -44,19 +44,37 @@
         {% render_table participants_table %}
     </div>
     <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-        <h5>Kämpfe</h5>
+        <h5 id="fights">Kämpfe</h5>
         {% if rounds %}
             <div class="mdl-cell mdl-cell--12-col">
                 {% load django_tables2 %}
                 {% for round in rounds %}
-                    <h6>Runde {{ round.round_number }}</h6>
+                    <h6 id="round{{ round.round_number }}">
+                        Runde {{ round.round_number }}
+                        {% if not round.finished and round.complete %}
+                        <a href="{% url 'tournament_management:tournament_detail' tournament.id %}?action=newRound">
+                            <button class="mdl-button mdl-js-button mdl-button--mini-fab mdl-button--colored mdl-shadow--2dp">
+                                <i class="material-icons">send</i> Nächste Runde
+                            </button>
+                        </a>
+                        {% endif %}
+                    </h6>
                     {% render_table round.combat_table %}
                 {% endfor %}
             </div>
         {% else %}
             <div class="mdl-cell mdl-cell--12-col">
-                <h6>Das Tunier hat noch nicht begonnen!</h6>
+            <h6>Das Tunier hat noch nicht begonnen!</h6>
+            {% if tournament.participants_count > 1 and tournament.participants_count|divisibleby:2 %}
+                <a href="{% url 'tournament_management:tournament_detail' tournament.pk %}?action=start">
+                    <button class="mdl-button mdl-js-button mdl-button--mini-fab mdl-button--colored mdl-shadow--2dp">
+                        <i class="material-icons">send</i> Tunier starten
+                    </button>
+                </a>
+            {% else %}
+                <h6>Starten nicht möglich zu wenige Teilnehmner oder ungerade Teilnehmnerzahl!</h6>
+            {% endif %}
             <div></div>
         {% endif %}
-    </div>
+        </div>
 {% endblock %}

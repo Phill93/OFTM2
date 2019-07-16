@@ -48,6 +48,7 @@ class Tournament(models.Model):
             r = 1
         round_new = Round(round_number=r, tournament=self, locked=True)
         round_new.save()
+        round_new.create_combats()
         return round_new
 
     participants_count.short_description = "Teilnehmeranzahl"
@@ -91,7 +92,7 @@ class Round(models.Model):
         if self.round_number <= 1:
             return None
         else:
-            return self.tournament.round_set.get(round_number__exact=self.round_number-1)
+            return self.tournament.round_set.get(round_number__exact=self.round_number - 1)
 
     def create_combats(self):
         if self.started():
@@ -108,6 +109,10 @@ class Round(models.Model):
             return result
         else:
             raise Exception('round has already started')
+
+    def finish(self):
+        for c in self.combat_set.all():
+            c.finish()
 
     def started(self):
         if self.combat_set.count() == 0:
@@ -189,6 +194,37 @@ class Combat(models.Model):
     def get_update_url(self):
         """returns the update url to the object"""
         return reverse('tournament_management:combat_update', args=[str(self.id)])
+
+    def finish(self):
+        if not self.locked and self.result_set.count() == 0:
+            self.locked = True
+            self.save()
+        elif self.result_set.count() > 0:
+            raise Exception('{} ist schon ausgewertet'.format(self.__str__()))
+        winner = self.get_winner()
+        if winner == self.fighter1:
+            winner_given = self.fighter1_points
+            winner_recevied = self.fighter2_points
+            looser = self.fighter2
+            looser_given = self.fighter2_points
+            looser_recevied = self.fighter1_points
+        elif winner == self.fighter2:
+            winner_given = self.fighter2_points
+            winner_recevied = self.fighter1_points
+            looser = self.fighter1
+            looser_given = self.fighter1_points
+            looser_recevied = self.fighter2_points
+        else:
+            winner = self.fighter2
+            winner_given = self.fighter2_points
+            winner_recevied = self.fighter1_points
+            looser = self.fighter1
+            looser_given = self.fighter1_points
+            looser_recevied = self.fighter2_points
+        r = Result(related_round=self.related_round, combat=self, winner=winner, winner_given=winner_given, winner_received=winner_recevied, looser=looser,
+                   looser_given=looser_given, looser_received=looser_recevied)
+        r.save()
+        return r
 
     def save(self, *args, **kwargs):
         try:

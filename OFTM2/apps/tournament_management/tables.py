@@ -35,4 +35,4 @@ class CombatTable(tables.Table):
         }
         template_name = "components/tables/mdl.html"
         sequence = ('fighter1', 'fighter1_points', 'fighter2_points', 'fighter2')
-        exclude = ('id', 'related_round')
+        exclude = ('id', 'related_round', 'locked')

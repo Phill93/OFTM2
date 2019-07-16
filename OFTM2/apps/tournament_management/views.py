@@ -33,6 +33,12 @@ class TournamentsDetailView(PermissionRequiredMixin, View):
         tournament = get_object_or_404(Tournament, pk=tournament_id)
         participants_table = FencersTable(tournament.participants.all())
         rounds = []
+        if request.GET.get('action'):
+            if request.GET.get('action') == 'start':
+                tournament.new_round()
+            elif request.GET.get('action') == 'newRound':
+                tournament.round_set.last().finish()
+                tournament.new_round()
         for r in tournament.round_set.all():
             r.combat_table = CombatTable(r.combat_set.all())
             rounds.append(r)
@@ -80,4 +86,4 @@ class CombatUpdateView(PermissionRequiredMixin, UpdateView):
     model = Combat
 
     def get_success_url(self):
-        return reverse_lazy('tournament_management:tournament_detail', kwargs={'tournament_id': self.object.related_round.tournament.id})
+        return "{}#round{}".format(reverse_lazy('tournament_management:tournament_detail', kwargs={'tournament_id': self.object.related_round.tournament.id}), self.object.related_round.round_number)
