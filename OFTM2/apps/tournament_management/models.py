@@ -158,12 +158,14 @@ class Combat(models.Model):
 
     fighter1_points = models.IntegerField(
         verbose_name="Punkte Fechter 1",
-        blank=True
+        blank=True,
+        null=True
     )
 
     fighter2_points = models.IntegerField(
         verbose_name="Punkte Fechter 2",
-        blank=True
+        blank=True,
+        null=True
     )
 
     locked = models.BooleanField(
@@ -216,7 +218,14 @@ class Result(models.Model):
     winner = models.ForeignKey(
         Fencer,
         on_delete=models.PROTECT,
-        verbose_name="Sieger"
+        verbose_name="Sieger",
+        related_name="+"
+    )
+    looser = models.ForeignKey(
+        Fencer,
+        on_delete=models.PROTECT,
+        verbose_name="Verlierer",
+        related_name="+"
     )
     winner_given = models.IntegerField(
         verbose_name="Sieger gegeben"
