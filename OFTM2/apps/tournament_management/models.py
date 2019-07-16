@@ -201,30 +201,15 @@ class Combat(models.Model):
             self.save()
         elif self.result_set.count() > 0:
             raise Exception('{} ist schon ausgewertet'.format(self.__str__()))
-        winner = self.get_winner()
-        if winner == self.fighter1:
-            winner_given = self.fighter1_points
-            winner_recevied = self.fighter2_points
-            looser = self.fighter2
-            looser_given = self.fighter2_points
-            looser_recevied = self.fighter1_points
-        elif winner == self.fighter2:
-            winner_given = self.fighter2_points
-            winner_recevied = self.fighter1_points
-            looser = self.fighter1
-            looser_given = self.fighter1_points
-            looser_recevied = self.fighter2_points
-        else:
-            winner = self.fighter2
-            winner_given = self.fighter2_points
-            winner_recevied = self.fighter1_points
-            looser = self.fighter1
-            looser_given = self.fighter1_points
-            looser_recevied = self.fighter2_points
-        r = Result(related_round=self.related_round, combat=self, winner=winner, winner_given=winner_given, winner_received=winner_recevied, looser=looser,
-                   looser_given=looser_given, looser_received=looser_recevied)
-        r.save()
-        return r
+        p, created = Points.objects.get_or_create(fencer=self.fighter1, defaults={'related_round': self.related_round})
+        p.recieved += self.fighter2_points
+        p.given += self.fighter1_points
+        p.save()
+
+        p, created = Points.objects.get_or_create(fencer=self.fighter2, defaults={'related_round': self.related_round})
+        p.recieved += self.fighter1_points
+        p.given += self.fighter2_points
+        p.save()
 
     def save(self, *args, **kwargs):
         try:
@@ -279,3 +264,40 @@ class Result(models.Model):
     class Meta:
         verbose_name = "Ergebniss"
         verbose_name_plural = "Ergebnisse"
+
+
+class Points(models.Model):
+    related_round = models.ForeignKey(
+        Round,
+        on_delete=models.CASCADE,
+        verbose_name="Runde"
+    )
+    fencer = models.ForeignKey(
+        Fencer,
+        on_delete=models.CASCADE,
+        verbose_name="Fechter"
+    )
+    recieved = models.IntegerField(
+        verbose_name="Erhaltene Treffer",
+        default=0
+    )
+    given = models.IntegerField(
+        verbose_name="Gegebene Treffer",
+        default=0
+    )
+
+    index = models.IntegerField(
+        verbose_name="Index",
+        default=0
+    )
+
+    def save(self, *args, **kwargs):
+        self.index = self.given - self.recieved
+        super(Points, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return "Punkte für {}".format(self.fencer)
+
+    class Meta:
+        verbose_name = "Punkte"
+        verbose_name_plural = "Punkte"
