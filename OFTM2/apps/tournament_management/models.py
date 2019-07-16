@@ -189,7 +189,7 @@ class Combat(models.Model):
 
 
 class Result(models.Model):
-    related_roun = models.ForeignKey(
+    related_round = models.ForeignKey(
         Round,
         on_delete=models.CASCADE,
         verbose_name="Runde"
