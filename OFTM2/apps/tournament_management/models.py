@@ -95,7 +95,7 @@ class Round(models.Model):
             return self.tournament.round_set.get(round_number__exact=self.round_number - 1)
 
     def create_combats(self):
-        if self.started():
+        if not self.started():
             result = []
             if self.round_number == 1:
                 p = list(self.tournament.participants.order_by('?'))
@@ -116,9 +116,9 @@ class Round(models.Model):
 
     def started(self):
         if self.combat_set.count() == 0:
-            return True
-        else:
             return False
+        else:
+            return True
 
     def finished(self):
         finished = True
