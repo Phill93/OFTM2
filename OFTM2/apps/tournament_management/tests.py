@@ -17,27 +17,12 @@ class TournamentEvaluationCheck(TestCase):
         self.tournament.participants.set(fencers)
 
     def testRoundCreation(self):
-        self.tournament.new_round()
-        self.assertEqual(self.tournament.round_set.first().round_number, 1)
+        r = self.tournament.new_round()
+        self.assertEqual(r.round_number, 1)
 
     def testRoundCombatCreation(self):
-        self.tournament.new_round()
-        self.tournament.round_set.get(pk=1).create_combats()
-        self.assertEqual(self.tournament.round_set.get(pk=1).combat_set.count(), self.tournament.participants.count()/2)
-
-    def testRoundCombatsEvaluation(self):
-        self.tournament.new_round()
-        r = self.tournament.round_set.get(pk=1)
-        r.create_combats()
-        for c in r.combat_set.all():
-            c.fighter1_points = random.randrange(1, 5)
-            c.fighter2_points = random.randrange(1, 5)
-            c.save()
-        r.finish()
-        for c in r.combat_set.all():
-            self.assertEqual(c.locked, True)
-            self.assertIsInstance(c.result_set.first(), Result)
-        self.assertEqual(r.locked, True)
+        r = self.tournament.new_round()
+        self.assertEqual(r.combat_set.count(), self.tournament.participants.count()/2)
 
 
 class TournamentCalculationCheck(TestCase):
