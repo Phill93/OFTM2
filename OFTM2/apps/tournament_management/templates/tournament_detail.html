@@ -13,7 +13,7 @@
                     </a>
                 </div>
             {% endif %}
-            {% if perms.Tournament.can_modify %}
+            {% if perms.Tournament.can_modify and not tournament.round_set.all %}
                 <div class="mdl-cell--1-col mdl-cell">
                     <a href="{% url 'tournament_management:tournament_update' tournament.pk %}">
                         <button class="mdl-button mdl-js-button mdl-button--mini-fab mdl-button--colored mdl-shadow--2dp">
