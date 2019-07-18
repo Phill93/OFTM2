@@ -44,7 +44,7 @@ class TournamentCalculationCheck(TestCase):
         for td_c in self.test_data['round1.json']:
             Combat.objects.create(related_round=r, fighter1=Fencer.objects.get(pk=td_c['id1']), fighter2=Fencer.objects.get(pk=td_c['Id2']), fighter1_points=td_c['points1'], fighter2_points=td_c['points2'])
         r.finish()
-        ranking = r.points_set.order_by('-given', 'recieved', '-index')
+        ranking = r.ranking()
         for td_r in self.test_data['round1_result.json']:
             rank = int(td_r['rank'] - 1)
             self.assertEqual(ranking[rank].fencer, Fencer.objects.get(pk=td_r['id']))
@@ -55,11 +55,12 @@ class TournamentCalculationCheck(TestCase):
     def round2(self):
         r = self.tournament.new_round()
         for td_c in self.test_data['round2.json']:
-            c = Combat.objects.get(fighter1_id=td_c['id1'], fighter2_id=td_c['Id2'])
+            c = Combat.objects.get(fighter1_id=td_c['id1'], fighter2_id=td_c['Id2'], related_round=r)
             c.fighter1_points = td_c['points1']
             c.fighter2_points = td_c['points2']
+            c.save()
         r.finish()
-        ranking = r.points_set.order_by('-given', 'recieved', '-index')
+        ranking = r.ranking()
         for td_r in self.test_data['round2_result.json']:
             rank = int(td_r['rank'] - 1)
             self.assertEqual(ranking[rank].fencer, Fencer.objects.get(pk=td_r['id']))
