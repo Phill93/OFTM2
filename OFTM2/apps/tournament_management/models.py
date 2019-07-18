@@ -100,7 +100,9 @@ class Round(models.Model):
             if self.round_number == 1:
                 p = list(self.tournament.participants.order_by('?'))
             else:
-                p = list(self.tournament.participants.all())  # TODO: Change
+                p = []
+                for point in Round.objects.get(tournament=self.tournament, round_number=self.round_number-1).ranking():
+                    p.append(point.fencer)
 
             while p:
                 c = Combat(related_round_id=self.pk, fighter1=p.pop(0), fighter2=p.pop(0))
@@ -133,6 +135,9 @@ class Round(models.Model):
             if not c.fighter2_points and not c.fighter1_points:
                 complete = False
         return complete
+
+    def ranking(self):
+        return self.points_set.order_by('-given', 'recieved', '-index', 'fencer_id')
 
     class Meta:
         verbose_name = "Runde"
@@ -201,14 +206,27 @@ class Combat(models.Model):
             self.save()
         elif self.result_set.count() > 0:
             raise Exception('{} ist schon ausgewertet'.format(self.__str__()))
-        p, created = Points.objects.get_or_create(fencer=self.fighter1, defaults={'related_round': self.related_round})
-        p.recieved += self.fighter2_points
-        p.given += self.fighter1_points
+        if self.related_round.round_number > 1:
+            previous_round = self.related_round.tournament.round_set.get(round_number=self.related_round.round_number-1)
+            last_points = previous_round.points_set.get(fencer=self.fighter1, related_round=previous_round)
+        p, created = Points.objects.get_or_create(fencer=self.fighter1, related_round=self.related_round)
+        if self.related_round.round_number > 1:
+            p.recieved += self.fighter2_points + last_points.recieved
+            p.given += self.fighter1_points + last_points.given
+        else:
+            p.recieved += self.fighter2_points
+            p.given += self.fighter1_points
         p.save()
 
-        p, created = Points.objects.get_or_create(fencer=self.fighter2, defaults={'related_round': self.related_round})
-        p.recieved += self.fighter1_points
-        p.given += self.fighter2_points
+        if self.related_round.round_number > 1:
+            last_points = previous_round.points_set.get(fencer=self.fighter2, related_round=previous_round)
+        p, created = Points.objects.get_or_create(fencer=self.fighter2, related_round=self.related_round)
+        if self.related_round.round_number > 1:
+            p.recieved += self.fighter1_points + last_points.recieved
+            p.given += self.fighter2_points + last_points.given
+        else:
+            p.recieved += self.fighter1_points
+            p.given += self.fighter2_points
         p.save()
 
     def save(self, *args, **kwargs):
