@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta http-equiv="refresh" content="5">
+</head>
+<body style="background-color: #000000; color: #ffffff">
+<div style="text-align: center">
+    <h1>{{ beamer.tournament.name }}</h1>
+    <h2>Runde {{ round.round_number }}</h2>
+    {% if mode == "points" %}
+        <table align="center" border="1">
+            <thead>
+            <tr>
+                <td>Platz</td>
+                <td>Fechter</td>
+                <td>Siege</td>
+                <td>Gegebene Treffer</td>
+                <td>Erhaltene Treffer</td>
+                <td>Index</td>
+            </tr>
+            </thead>
+            {% for point in points %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ point.fencer }}</td>
+                    <td>{{ point.wins }}</td>
+                    <td>{{ point.given }}</td>
+                    <td>{{ point.recieved }}</td>
+                    <td>{{ point.index }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% elif mode == "combats" %}
+        <table align="center" border="1">
+            <thead>
+            <tr>
+                <td>Fechter 1</td>
+                <td>Punkte</td>
+                <td></td>
+                <td>Punkte</td>
+                <td>Fechter 2</td>
+            </tr>
+            </thead>
+            {% for combat in combats %}
+                <tr>
+                    <td>{{ combat.fighter1 }}</td>
+                    <td>{{ combat.fighter1_points }}</td>
+                    <td>:</td>
+                    <td>{{ combat.fighter2_points }}</td>
+                    <td>{{ combat.fighter2 }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        None = Kampf hat noch nicht statt gefunden
+    {% elif mode == "both" %}
+        <table align="center" border="0">
+            <tr>
+                <td>
+                    <table align="center" border="1">
+                        <thead>
+                        <tr>
+                            <td>Fechter 1</td>
+                            <td>Punkte</td>
+                            <td></td>
+                            <td>Punkte</td>
+                            <td>Fechter 2</td>
+                        </tr>
+                        </thead>
+                        {% for combat in combats %}
+                            <tr>
+                                <td>{{ combat.fighter1 }}</td>
+                                <td>{{ combat.fighter1_points }}</td>
+                                <td>:</td>
+                                <td>{{ combat.fighter2_points }}</td>
+                                <td>{{ combat.fighter2 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+                <td>
+                    <table align="center" border="1">
+                        <thead>
+                        <tr>
+                            <td>Platz</td>
+                            <td>Fechter</td>
+                            <td>Siege</td>
+                            <td>Gegebene Treffer</td>
+                            <td>Erhaltene Treffer</td>
+                            <td>Index</td>
+                        </tr>
+                        </thead>
+                        {% for point in points %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ point.fencer }}</td>
+                                <td>{{ point.wins }}</td>
+                                <td>{{ point.given }}</td>
+                                <td>{{ point.recieved }}</td>
+                                <td>{{ point.index }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </td>
+            </tr>
+        </table>
+        {% endif %}
+<p style="color: #444444">Beamer ID:{{ beamer.name }}</p>
+</div>
+<script src="{% static "js/main.js" %}"></script>
+</body>
+</html>

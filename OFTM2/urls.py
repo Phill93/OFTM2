@@ -12,7 +12,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('fencers/', include('OFTM2.apps.fencers_management.urls')),
                   path('tournaments/', include('OFTM2.apps.tournament_management.urls')),
-    path('accounts/', include('django.contrib.auth.urls'))
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('beamer', include('OFTM2.apps.beamerManagement.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
