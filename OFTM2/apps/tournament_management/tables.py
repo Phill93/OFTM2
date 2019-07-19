@@ -43,11 +43,11 @@ class PointsTable(tables.Table):
 
     class Meta:
         """meta class"""
-        name = tables.Column(order_by=('-given', 'recieved', '-index', 'fencer_id'))
+        name = tables.Column(order_by=('-wins', '-given', '-index', 'fencer_id'))
         model = Points
         attrs = {
             'class': 'mdl-data-table mdl-js-data-table mdl-shadow--2dp fullwidth'
         }
         template_name = "components/tables/mdl.html"
         exclude = {'id', 'related_round'}
-        sequence = ('fencer', 'given', 'recieved', 'index')
+        sequence = ('fencer', 'wins', 'given', 'recieved', 'index')

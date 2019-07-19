@@ -137,7 +137,7 @@ class Round(models.Model):
         return complete
 
     def ranking(self):
-        return self.points_set.order_by('-given', 'recieved', '-index', 'fencer_id')
+        return self.points_set.order_by('-wins', '-given', '-index', 'fencer_id')
 
     class Meta:
         verbose_name = "Runde"
@@ -213,9 +213,12 @@ class Combat(models.Model):
         if self.related_round.round_number > 1:
             p.recieved += self.fighter2_points + last_points.recieved
             p.given += self.fighter1_points + last_points.given
+            p.wins = last_points.wins
         else:
             p.recieved += self.fighter2_points
             p.given += self.fighter1_points
+        if self.get_winner() == self.fighter1:
+            p.wins += 1
         p.save()
 
         if self.related_round.round_number > 1:
@@ -224,9 +227,12 @@ class Combat(models.Model):
         if self.related_round.round_number > 1:
             p.recieved += self.fighter1_points + last_points.recieved
             p.given += self.fighter2_points + last_points.given
+            p.wins = last_points.wins
         else:
             p.recieved += self.fighter1_points
             p.given += self.fighter2_points
+        if self.get_winner() == self.fighter2:
+            p.wins += 1
         p.save()
 
     def save(self, *args, **kwargs):
@@ -306,6 +312,11 @@ class Points(models.Model):
 
     index = models.IntegerField(
         verbose_name="Index",
+        default=0
+    )
+
+    wins = models.IntegerField(
+        verbose_name="Siege",
         default=0
     )
 

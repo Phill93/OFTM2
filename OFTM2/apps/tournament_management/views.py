@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django_tables2 import RequestConfig
+from django.http import HttpResponseRedirect
 
 from OFTM2.apps.fencers_management.helpers import calculate_birthday
 from OFTM2.apps.fencers_management.models import Fencer
@@ -32,15 +33,19 @@ class TournamentsDetailView(PermissionRequiredMixin, View):
         """HTTP-GET"""
         tournament = get_object_or_404(Tournament, pk=tournament_id)
         participants_table = FencersTable(tournament.participants.all())
-        print(tournament.round_set.last().ranking())
-        points_table = PointsTable(tournament.round_set.all()[tournament.round_set.count()-2].ranking())
+        if tournament.round_set.count() > 1:
+            points_table = PointsTable(tournament.round_set.get(round_number=tournament.round_set.last().round_number-1, tournament=tournament).ranking())
+        else:
+            points_table = None
         rounds = []
         if request.GET.get('action'):
             if request.GET.get('action') == 'start':
                 tournament.new_round()
+                return HttpResponseRedirect(reverse_lazy('tournament_management:tournament_detail', kwargs={'tournament_id': tournament.pk}))
             elif request.GET.get('action') == 'newRound':
                 tournament.round_set.last().finish()
                 tournament.new_round()
+                return HttpResponseRedirect(reverse_lazy('tournament_management:tournament_detail', kwargs={'tournament_id': tournament.pk}))
         for r in tournament.round_set.all():
             r.combat_table = CombatTable(r.combat_set.all())
             rounds.append(r)

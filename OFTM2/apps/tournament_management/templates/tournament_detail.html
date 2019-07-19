@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="mdl-color--white mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-grid">
-        {% if not tournament.round_set.all %}
+        {% if not points_table %}
         <h5>Teilnehmer</h5>
         {% load django_tables2 %}
         {% render_table participants_table %}
